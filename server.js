@@ -1,12 +1,16 @@
 // const
+const express = require("express");
+const path = require('path');
+const app = express();
+
 const dotenv = require("dotenv");
 dotenv.config(); // Loads the environment variables from .env file
 
-const express = require("express");
-const app = express();
 
 const mongoose = require("mongoose")
 
+
+app.set('view engine', 'ejs');
 
 
 /// middleware
@@ -18,7 +22,25 @@ const mongoose = require("mongoose")
 
 // GET /
 app.get("/", async (req, res) => {
-    res.send("hello, friend!");
+    res.render("index");
+  });
+  
+  app.get("/signin", async (req, res) => {
+    res.render("signin");
+  });
+
+  app.get("/signup", async (req, res) => {
+    res.render("signup");
+  });
+
+  app.get("/blog", async (req, res) => {
+    res.render("blog");
+  });
+  app.get("/blog", async (req, res) => {
+    res.render("blog");
+  });
+  app.get("/survey", async (req, res) => {
+    res.render("survey");
   });
   
 app.listen(3000, () => {
