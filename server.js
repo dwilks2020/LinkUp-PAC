@@ -1,48 +1,49 @@
-// const
-const express = require("express");
-const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+const morgan = require('morgan');
+const session = require('express-session');
 
-const dotenv = require("dotenv");
-dotenv.config(); // Loads the environment variables from .env file
+const authController = require('./controllers/auth.js');
 
+const port = process.env.PORT ? process.env.PORT : '3000';
 
-const mongoose = require("mongoose")
+mongoose.connect(process.env.MONGODB_URI);
 
+mongoose.connection.on('connected', () => {
+  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
+});
 
-app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
+// app.use(morgan('dev'));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-
-/// middleware
-
-
-///routess
-
-// server.js
-
-// GET /
-app.get("/", async (req, res) => {
-    res.render("index");
+app.get('/', (req, res) => {
+  res.render('index.ejs', {
+    user: req.session.user,
   });
-  
-  app.get("/signin", async (req, res) => {
-    res.render("signin");
-  });
+});
 
-  app.get("/signup", async (req, res) => {
-    res.render("signup");
-  });
+app.get('/members-only', (req, res) => {
+  if (req.session.user) {
+    res.send(`Welcome  ${req.session.user.username}.`);
+  } else {
+    res.send('Sorry, members only area.');
+  }
+});
 
-  app.get("/blog", async (req, res) => {
-    res.render("blog");
-  });
-  app.get("/blog", async (req, res) => {
-    res.render("blog");
-  });
-  app.get("/survey", async (req, res) => {
-    res.render("survey");
-  });
-  
-app.listen(3000, () => {
-    console.log("Listening on port 3000");
-  });
+app.use('/auth', authController);
+
+app.listen(port, () => {
+  console.log(`The express app is ready on port ${port}!`);
+});
