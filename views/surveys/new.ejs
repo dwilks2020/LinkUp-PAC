@@ -1,0 +1,48 @@
+<!-- views/applications/new.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add a New Survey</title>
+</head>
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Add a Survey</h1>
+
+    <h1>Create a New Survey</h1>
+    <form action="/surveys" method="POST"> <!-- Adjust the action to your route -->
+        
+        <!-- Survey Title -->
+        <label for="title">Survey Title:</label>
+        <input type="text" name="title" id="title" required>
+
+        <!-- Survey Description -->
+        <label for="description">Survey Description:</label>
+        <textarea name="description" id="description"></textarea>
+
+        <div id="questions">
+            <h3>Questions</h3>
+            <div class="question">
+                <label for="questionText">Question Text:</label>
+                <input type="text" name="questions[0].questionText" required>
+
+                <label for="questionType">Question Type:</label>
+                <select name="questions[0].questionType" required>
+                    <option value="text">Text</option>
+                    <option value="multiple choice">Multiple Choice</option>
+                    <option value="rating">Rating</option>
+                </select>
+
+                <label for="options">Options (comma-separated, for multiple choice):</label>
+                <input type="text" name="questions[0].options" placeholder="Option 1, Option 2, ...">
+            </div>
+        </div>
+
+        <button type="button" id="addQuestion">Add Another Question</button>
+        
+        <button type="submit">Create Survey</button>
+    </form>
+  </body>
+</html>

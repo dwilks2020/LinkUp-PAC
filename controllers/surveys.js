@@ -5,7 +5,7 @@ const User = require('../models/user.js');
 
 router.get('/', async (req, res) => {
     try {
-      res.render('surveys/index.ejs');
+      res.render('surveys/new.ejs');
     } catch (error) {
       console.log(error)
       res.redirect('/')
