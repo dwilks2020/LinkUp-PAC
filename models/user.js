@@ -46,7 +46,6 @@ const surveySchema = new mongoose.Schema({
   },
 });
 
-
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -57,8 +56,19 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   surveys: [surveySchema],  
+  name: { // Added name field
+    type: String,
+  },
+  email: { // Added email field
+    type: String,
+    required: true,
+    unique: true,
+  },
+  createdAt: { // Added createdAt field
+    type: Date,
+    default: Date.now,
+  },
 });
-
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

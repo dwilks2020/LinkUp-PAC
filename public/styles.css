@@ -1,0 +1,56 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: white; 
+  color: black; /* Text color */
+}
+
+nav {
+  background-color: limegreen; 
+  padding: 10px;
+}
+
+nav a {
+  color: white; 
+  text-decoration: none; 
+  margin: 0 15px; 
+}
+
+nav a:hover {
+  text-decoration: underline; 
+}
+
+.content {
+  padding: 20px; 
+}
+
+h1 {
+  color: limegreen; 
+}
+
+.community-gallery {
+  padding: 20px; 
+  text-align: center; 
+}
+
+.community-gallery h2 {
+  color: limegreen; 
+}
+
+.image-container {
+  display: flex; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  gap: 10px; 
+}
+
+.image-container img {
+  border: 2px solid limegreen; 
+  border-radius: 5px; 
+  max-width: 100%; 
+  height: auto; 
+  transition: transform 0.3s; 
+}
+
+.image-container img:hover {
+  transform: scale(1.05); 
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Index</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+
+    <h1>Blog Posts</h1>
+    <a href="/blogs/new">Create New Blog Post</a>
+
+    <h2>All Posts</h2>
+    <ul>
+        <% blogs.forEach(blog => { %>
+            <li>
+                <a href="/blogs/<%= blog._id %>"><%= blog.title %></a> <!-- Display blog title -->
+                <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button> <!-- Delete blog post -->
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

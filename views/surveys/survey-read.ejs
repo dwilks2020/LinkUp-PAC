@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/styles.css"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Details</title>
+</head>
+<body>
+    <h1>Survey Question: <%= survey.question %></h1>
+    <p>Answer Option 1: <%= survey.answers.option1 ? 'True' : 'False' %></p>
+    <p>Answer Option 2: <%= survey.answers.option2 ? 'True' : 'False' %></p>
+
+    <a href="/surveys">Back to All Surveys</a>
+    <a href="/surveys/<%= survey._id %>/edit">Edit Survey</a>
+</body>
+</html>

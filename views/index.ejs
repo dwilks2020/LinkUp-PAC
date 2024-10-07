@@ -4,25 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Page</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Correctly link to your CSS file -->
 </head>
 <body>
 
-  <% if (user) { %>
-    <h1>Welcome to the app, <%= user.username %>!</h1>
-    <p>
-      <a href="/auth/sign-out">Sign out</a>
-    </p>
-  <% } else { %>
-    <h1>Welcome to Community Consensus Builder!</h1>
-    <p>
-      <a href="/auth/sign-up">Sign up</a> or
-      <a href="/auth/sign-in">Sign in</a>.
-    </p>
-  <% } %>
-  <p><a href="/members-only">Members Only </a></p>
-  <p><a href="/members-only">Blog </a></p>
-  <p><a href="/members-only">Survey</a></p>
+    <%- include('partials/_navbar.ejs') %>
 
 
+
+    <div class="content">
+        <% if (user) { %>
+            <h1>Welcome to the app, <%= user.username %>!</h1>
+            <p>
+                <a href="/auth/sign-out">Sign out</a>
+            </p>
+        <% } else { %>
+            <h1>Welcome to Community Consensus Builder!</h1>
+            <p>
+                <a href="/auth/sign-up">Sign up</a> or
+                <a href="/auth/sign-in">Sign in</a>.
+            </p>
+        <% } %>
+    </div>
+
+    <div class="community-gallery">
+        <h2>Community Highlights</h2>
+            <div class="image-container">
+                <img src="/https://i.imgur.com/VsucBCl.png" alt="A beautiful scenery">
+                               <img src="/https://i.imgur.com/VsucBCl.png" alt="A beautiful scenery">
+                               <img src="/https://i.imgur.com/BUr1Wgo.png" alt="A beautiful scenery">
+                               <img src="/https://i.imgur.com/p3nbT6V.png" alt="A beautiful scenery">
+                               <img src="/https://i.imgur.com/oXWs4BD.jpeg" alt="A beautiful scenery">
+
+            </div>
+    </div>
 </body>
 </html>

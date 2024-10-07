@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editing <%= survey.title %></title> <!-- Update title for surveys -->
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  <h1>Edit Survey: <%= survey.title %></h1> <!-- Update heading for surveys -->
+  <form 
+    action="/surveys/<%= survey._id %>?_method=PUT" <!-- Change action to reflect surveys -->
+    method="POST"
+  >
+    <label for="title">Survey Title:</label>
+    <input 
+      type="text" 
+      name="title" 
+      id="title" 
+      value="<%= survey.title %>" <!-- Update to reflect survey title -->
+    >
+    
+    <label for="description">Description:</label>
+    <textarea name="description" id="description"><%= survey.description %></textarea> <!-- Add description field -->
+
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+      <option 
+        value="draft" 
+        <%= survey.status === "draft" ? "selected" : "" %>
+      >
+        Draft
+      </option>
+      <option 
+        value="published" 
+        <%= survey.status === "published" ? "selected" : "" %>
+      >
+        Published
+      </option>
+    </select>
+    
+    <button type="submit">Update Survey</button> <!-- Update button text -->
+  </form>
+</body>
+</html>

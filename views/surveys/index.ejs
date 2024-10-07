@@ -1,15 +1,33 @@
-<!-- views/applications/index.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surveys</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveys Management</title>
 </head>
 <body>
-  <h1>Surveys</h1>
-  <%- include('../partials/_navbar.ejs') %>
-  <a href="/users/<%=user._id%>/applications/new">Add an survey</a>
+
+    <h2>Create New Survey</h2>
+    <form action="/surveys" method="POST"> <!-- Change action URL to match your survey route -->
+        <label for="title">Survey Title:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <br>
+        <button type="submit">Create Survey</button>
+    </form>
+
+    <h1>All Surveys</h1>
+    <ul>
+        <% surveys.forEach(function(survey) { %>
+            <li>
+                <strong><%= survey.title %></strong> 
+                (<%= survey.description %>) 
+                <a href="/surveys/<%= survey._id %>">View</a> <!-- Link to view survey details -->
+            </li>
+        <% }); %>
+    </ul>
+
 </body>
 </html>

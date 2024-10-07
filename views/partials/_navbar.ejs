@@ -1,12 +1,12 @@
-<!-- views/partials/_navbar.ejs -->
-
 <nav>
-    <% if(user) { %>
-      <a href="/users/<%= user._id %>/surveys">Surveys</a>
-      <a href="/auth/sign-out">Sign Out</a>
-    <% } else { %>
-      <a href="/auth/sign-in">Sign In</a>
-      <a href="/auth/sign-up">Sign Up</a>
-    <% } %>
-  </nav>
-  
+  <% if (user) { %>
+    <a href="/users/<%= user._id %>">Your Profile</a>
+    <a href="/surveys">Surveys</a>
+    <a href="/blogs">Blogs</a>
+    <a href="/users"> Users</a>
+    <a href="/auth/sign-out">Sign Out</a>
+  <% } else { %>
+    <a href="/auth/sign-in">Sign In</a>
+    <a href="/auth/sign-up">Sign Up</a>
+  <% } %>
+</nav>
