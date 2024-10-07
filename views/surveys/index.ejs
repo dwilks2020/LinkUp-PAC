@@ -7,24 +7,21 @@
 </head>
 <body>
 
-    <h2>Create New Survey</h2>
-    <form action="/surveys" method="POST"> <!-- Change action URL to match your survey route -->
-        <label for="title">Survey Title:</label>
-        <input type="text" id="title" name="title" required>
-        <br>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
-        <br>
-        <button type="submit">Create Survey</button>
-    </form>
-
+  <h2>Create New Survey</h2>
+  <form action="/surveys" method="POST">
+      <input type="text" name="title" placeholder="Survey Title" required>
+      <textarea name="description" placeholder="Survey Description" required></textarea>
+      <input type="hidden" name="userId" value="<%= user._id %>"> <!-- Ensure user ID is passed -->
+      <button type="submit">Create Survey</button>
+  </form>
+  
     <h1>All Surveys</h1>
     <ul>
         <% surveys.forEach(function(survey) { %>
             <li>
                 <strong><%= survey.title %></strong> 
                 (<%= survey.description %>) 
-                <a href="/surveys/<%= survey._id %>">View</a> <!-- Link to view survey details -->
+                <a href="/surveys/<%= survey._id %>">View</a> 
             </li>
         <% }); %>
     </ul>

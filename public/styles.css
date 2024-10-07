@@ -1,56 +1,83 @@
 body {
   font-family: Arial, sans-serif;
   background-color: white; 
-  color: black; /* Text color */
+  color: black;
+  margin: 0;
 }
 
 nav {
-  background-color: limegreen; 
+  background-color: #39FF14;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 nav a {
-  color: white; 
-  text-decoration: none; 
-  margin: 0 15px; 
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
 }
 
 nav a:hover {
-  text-decoration: underline; 
+  text-decoration: underline;
+  text-shadow: 0 0 5px white;
 }
 
 .content {
-  padding: 20px; 
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 h1 {
-  color: limegreen; 
+  color: #000000;
+  text-align: center;
 }
 
 .community-gallery {
-  padding: 20px; 
-  text-align: center; 
+  padding: 20px;
+  text-align: center;
 }
 
 .community-gallery h2 {
-  color: limegreen; 
+  color: #0c100b;
+  text-shadow: 0 0 5px rgba(57, 255, 20, 0.6);
 }
 
 .image-container {
-  display: flex; 
-  justify-content: center; 
-  flex-wrap: wrap; 
-  gap: 10px; 
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .image-container img {
-  border: 2px solid limegreen; 
-  border-radius: 5px; 
-  max-width: 100%; 
-  height: auto; 
-  transition: transform 0.3s; 
+  border: 3px solid #6264c4;
+  border-radius: 10px;
+  max-width: 200px;
+  height: auto;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .image-container img:hover {
-  transform: scale(1.05); 
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.8);
+}
+
+button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #28A745;
+  transform: scale(1.05);
 }

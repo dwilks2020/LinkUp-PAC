@@ -10,8 +10,6 @@
 
     <%- include('partials/_navbar.ejs') %>
 
-
-
     <div class="content">
         <% if (user) { %>
             <h1>Welcome to the app, <%= user.username %>!</h1>
@@ -29,14 +27,13 @@
 
     <div class="community-gallery">
         <h2>Community Highlights</h2>
-            <div class="image-container">
-                <img src="https://i.imgur.com/VsucBCl.png" alt="A beautiful scenery">
-                <img src="https://i.imgur.com/VsucBCl.png" alt="A beautiful scenery">
-                <img src="https://i.imgur.com/BUr1Wgo.png" alt="A beautiful scenery">
-                <img src="https://i.imgur.com/p3nbT6V.png" alt="A beautiful scenery">
-                <img src="https://i.imgur.com/oXWs4BD.jpeg" alt="A beautiful scenery">
-                
-            </div>
+        <div class="image-container">
+            <img src="https://i.imgur.com/p3nbT6V.png" alt="A beautiful scenery of a sunset over mountains">
+            <img src="https://i.imgur.com/VsucBCl.png" alt="A beautiful view of a green landscape">
+            <img src="https://i.imgur.com/BUr1Wgo.png" alt="A serene lake surrounded by trees">
+            <img src="https://i.imgur.com/p3nbT6V.png" alt="Another view of a scenic landscape">
+            <img src="https://i.imgur.com/oXWs4BD.jpeg" alt="A breathtaking mountain view">
+        </div>
     </div>
 </body>
 </html>

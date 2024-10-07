@@ -13,7 +13,10 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // 
+  date: {
+    type: Date, 
+    required: false
+  }
 }, {
   timestamps: true 
 });
@@ -21,3 +24,4 @@ const blogSchema = new mongoose.Schema({
 // Export the model
 const Blog = mongoose.model('Blog', blogSchema); 
 module.exports = Blog;
+
