@@ -9,7 +9,7 @@
 <body>
     <h1><%= blog.title %></h1>
     <p>Author: <%= blog.Author %></p>
-    <p>Date: <%= blog.Date.toLocaleDateString() %></p>
+    <p>Date: <%= blog.date.toLocaleDateString() %></p>
     <p><%= blog.BodyText %></p>
     <a href="/blogs/<%= blog._id %>/edit">Edit Blog</a>
     <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">

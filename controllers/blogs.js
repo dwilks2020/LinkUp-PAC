@@ -25,7 +25,7 @@ router.get('/:blogId', async (req, res) => {
     if (!blog) {
       return res.status(404).send('Blog not found');
     }
-    res.render('blogs/show.ejs', { blog });
+    res.render('blogs/read-blog.ejs', { blog });
   } catch (error) {
     console.error('Error fetching blog:', error);
     res.redirect('/blogs');
@@ -37,7 +37,8 @@ router.use(isSignedIn);
 
 // Protected route: Show form to create a new blog
 router.get('/new', (req, res) => {
-  res.render('blogs/new.ejs');
+  console.log("BLOG_WORKING")
+  res.render('blogs/create-blog.ejs');
 });
 
 // Protected route: Create a new blog
@@ -69,7 +70,7 @@ router.get('/:blogId/edit', async (req, res) => {
     if (!blog) {
       return res.status(404).send('Blog not found');
     }
-    res.render('blogs/edit.ejs', { blog });
+    res.render('blogs/edit-blog.ejs', { blog });
   } catch (error) {
     console.error('Error fetching blog for edit:', error);
     res.redirect('/blogs');
