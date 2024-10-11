@@ -3,27 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Surveys</title>
     <link rel="stylesheet" href="/styles.css">
+    <title>All Surveys</title>
+    <style>
+        body 
+        {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: #d5d8dc;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #3498db;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Your Surveys jjj</h1>
-
-
-    <a href="/surveys/new">Create a New Survey</a>
+    <h1>All Surveys</h1>
     <ul>
-
-
-
         <% surveys.forEach(survey => { %>
             <li>
                 <a href="/surveys/<%= survey._id %>"><%= survey.title %></a>
-                <form action="/surveys/<%= survey._id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-                <a href="/surveys/<%= survey._id %>/edit">Edit</a>
             </li>
         <% }); %>
     </ul>
+
+    <a class="btn" href="/surveys/new">Create a new Survey</a>
 </body>
 </html>

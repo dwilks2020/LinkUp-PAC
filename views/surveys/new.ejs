@@ -3,51 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Survey</title>
     <link rel="stylesheet" href="/styles.css">
+    <title>Create a Survey</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+
+        form {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .question-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #2ecc71;
+        }
+
+        .add-question {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2980b9;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Create New Survey</h1>
+    <h1>Create a Survey</h1>
     <form action="/surveys" method="POST">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-        
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
+        <div class="question-group">
+            <label for="title">Survey Title:</label>
+            <input type="text" name="title" required>
+        </div>
 
-        <h3>Questions:</h3>
-        <div id="questions">
-            <div class="question">
-                <input type="text" name="questions[0][questionText]" placeholder="Question Text" required>
+        <div class="question-group">
+            <label for="description">Description:</label>
+            <textarea name="description" required></textarea>
+        </div>
+
+        <div id="questions-container">
+            <h3>Questions</h3>
+            <div class="question-group">
+                <label for="questionText">Question Text:</label>
+                <input type="text" name="questions[0][questionText]" required>
+
+                <label for="questionType">Question Type:</label>
                 <select name="questions[0][questionType]" required>
                     <option value="text">Text</option>
                     <option value="multiple-choice">Multiple Choice</option>
                 </select>
-                <input type="text" name="questions[0][options]" placeholder="Option 1 (comma-separated)">
+
+                <div class="multiple-choice-options">
+                    <label>Options (for multiple-choice):</label>
+                    <input type="text" name="questions[0][options]" placeholder="Option 1">
+                    <input type="text" name="questions[0][options]" placeholder="Option 2">
+                </div>
             </div>
         </div>
-        <button type="button" onclick="addQuestion()">Add Question</button>
+
+        <span class="add-question">+ Add another question</span>
+
         <button type="submit">Create Survey</button>
     </form>
 
     <script>
-        let questionCount = 1;
-        function addQuestion() {
-            const questionsDiv = document.getElementById('questions');
-            const newQuestionDiv = document.createElement('div');
-            newQuestionDiv.classList.add('question');
-            newQuestionDiv.innerHTML = `
-                <input type="text" name="questions[${questionCount}][questionText]" placeholder="Question Text" required>
-                <select name="questions[${questionCount}][questionType]" required>
-                    <option value="text">Text</option>
-                    <option value="multiple-choice">Multiple Choice</option>
-                </select>
-                <input type="text" name="questions[${questionCount}][options]" placeholder="Option 1 (comma-separated)">
+        document.querySelector('.add-question').addEventListener('click', function() {
+            const container = document.getElementById('questions-container');
+            const questionCount = container.getElementsByClassName('question-group').length;
+
+            const newQuestion = `
+                <div class="question-group">
+                    <label for="questionText">Question Text:</label>
+                    <input type="text" name="questions[${questionCount}][questionText]" required>
+
+                    <label for="questionType">Question Type:</label>
+                    <select name="questions[${questionCount}][questionType]" required>
+                        <option value="text">Text</option>
+                        <option value="multiple-choice">Multiple Choice</option>
+                    </select>
+
+                    <div class="multiple-choice-options">
+                        <label>Options (for multiple-choice):</label>
+                        <input type="text" name="questions[${questionCount}][options]" placeholder="Option 1">
+                        <input type="text" name="questions[${questionCount}][options]" placeholder="Option 2">
+                    </div>
+                </div>
             `;
-            questionsDiv.appendChild(newQuestionDiv);
-            questionCount++;
-        }
+            container.insertAdjacentHTML('beforeend', newQuestion);
+        });
     </script>
-    <a href="/surveys">Back to Surveys</a>
 </body>
 </html>

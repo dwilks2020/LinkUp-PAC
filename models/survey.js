@@ -8,20 +8,40 @@ const questionSchema = new mongoose.Schema({
     },
     questionType: {
         type: String,
-        enum: ['text', 'multiple-choice'],
+        enum: ['text', 'multiple-choice', 'true-false', 'rating', 'dropdown', 'date'], // Added more question types
         required: true,
     },
     options: {
-        type: [String],
+        type: [String], // Only relevant for multiple-choice or dropdown
         validate: {
-            validator: (val) => val.length <= 10, // Array limit validator
-            message: 'Exceeds the limit of 10 options',
+            validator: function (val) {
+                return this.questionType !== 'multiple-choice' && this.questionType !== 'dropdown' || val.length <= 10;
+            },
+            message: 'Options allowed only for multiple-choice or dropdown and should not exceed 10 options',
         },
-        default: [], // Default to an empty array
+        default: [],
     },
     required: {
         type: Boolean,
-        default: false,
+        default: true, // Default to true to ensure required responses
+    },
+    ratingScale: {
+        type: Number,
+        min: 1,
+        max: 10,
+        required: function () {
+            return this.questionType === 'rating'; // Required only for rating questions
+        },
+    },
+    // Field to store conditional logic (for advanced surveys)
+    conditional: {
+        type: mongoose.Schema.Types.Mixed, // Allows dynamic conditions (e.g., show question if certain answer is chosen)
+        default: null,
+    },
+    // For date type questions
+    dateOptions: {
+        type: Object,
+        default: null, // Only applies if questionType is 'date'
     },
 });
 
@@ -35,18 +55,23 @@ const surveySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    questions: {
-        type: [questionSchema],
-        default: [], // Default to an empty array
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User', // Reference to User model (if applicable)
-    },
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Ensure there's a User model
+        required: true,
+    },
+    questions: [questionSchema], // Array of questions using questionSchema
+    isPublished: {
+        type: Boolean,
+        default: false, // Allows you to manage published state
+    },
+    responses: {
+        type: Number,
+        default: 0, // Track number of responses to the survey
     },
 });
 

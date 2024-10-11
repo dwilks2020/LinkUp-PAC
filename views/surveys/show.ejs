@@ -3,29 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= survey.title %></title>
-    <link rel="stylesheet" href="/styles.css">
+    <title>Survey View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .survey-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Start below view */
+            transition: opacity 0.5s, transform 0.5s; /* Transition for slide effect */
+        }
+        .question.visible {
+            opacity: 1; /* Fade in */
+            transform: translateY(0); /* Slide up */
+        }
+        .question h4 {
+            margin-bottom: 10px;
+        }
+        .question-options {
+            margin-left: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .progress-container {
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0;
+            background-color: #4CAF50;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1><%= survey.title %></h1>
-    <p><%= survey.description %></p>
 
-    <h2>Questions:</h2>
-    <ul>
-        <% survey.questions.forEach(question => { %>
-            <li>
-                <strong><%= question.questionText %></strong>
-                <% if (question.questionType === 'multiple-choice') { %>
-                    <ul>
-                        <% question.options.forEach(option => { %>
-                            <li><%= option %></li>
-                        <% }); %>
-                    </ul>
-                <% } %>
-            </li>
-        <% }); %>
-    </ul>
+    <div class="survey-container">
+        <h2>Survey Title: <span id="surveyTitle">Your Survey Title</span></h2>
 
-    <a href="/surveys">Back to Surveys</a>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0 of 3 questions answered</p>
+        </div>
+
+        <form id="surveyForm">
+            <div id="questionsContainer">
+                <!-- Questions will be dynamically added here -->
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const surveyData = {
+            title: "Your Survey Title",
+            questions: [
+                {
+                    text: "What is your favorite color?",
+                    type: "multiple-choice",
+                    options: ["Red", "Blue", "Green", "Yellow"]
+                },
+                {
+                    text: "Do you like programming?",
+                    type: "true-false"
+                },
+                {
+                    text: "What is your favorite programming language?",
+                    type: "short-answer"
+                }
+            ]
+        };
+
+        // Display survey title
+        document.getElementById('surveyTitle').innerText = surveyData.title;
+
+        let currentQuestionIndex = 0;
+
+        // Function to display questions
+        function displayQuestions() {
+            const questionsContainer = document.getElementById('questionsContainer');
+
+            surveyData.questions.forEach((question, index) => {
+                const questionContainer = document.createElement('div');
+                questionContainer.classList.add('question');
+
+                const questionInnerHTML = `
+                    <h4>Question ${index + 1}: ${question.text}</h4>
+                    <div class="question-options"></div>
+                    <button class="next-btn" style="display:none;">Next</button>
+                `;
+                questionContainer.innerHTML = questionInnerHTML;
+                questionsContainer.appendChild(questionContainer);
+
+                const optionsContainer = questionContainer.querySelector('.question-options');
+
+                if (question.type === 'multiple-choice') {
+                    question.options.forEach(option => {
+                        optionsContainer.innerHTML += `
+                            <label>
+                                <input type="radio" name="question${index}" value="${option}" required> ${option}
+                            </label><br>
+                        `;
+                    });
+                } else if (question.type === 'true-false') {
+                    optionsContainer.innerHTML = `
+                        <label>
+                            <input type="radio" name="question${index}" value="true" required> True
+                        </label><br>
+                        <label>
+                            <input type="radio" name="question${index}" value="false" required> False
+                        </label>
+                    `;
+                } else if (question.type === 'short-answer') {
+                    optionsContainer.innerHTML = `
+                        <input type="text" name="question${index}" required placeholder="Your answer">
+                    `;
+                }
+            });
+
+            showCurrentQuestion();
+        }
+
+        function showCurrentQuestion() {
+            const questions = document.querySelectorAll('.question');
+            questions.forEach((q, index) => {
+                if (index === currentQuestionIndex) {
+                    q.classList.add('visible'); // Show current question
+                    const nextButton = q.querySelector('.next-btn');
+                    nextButton.style.display = 'block'; // Show button for the current question
+                } else {
+                    q.classList.remove('visible'); // Hide non-current questions
+                }
+            });
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const totalQuestions = surveyData.questions.length;
+
+            // Calculate percentage of progress
+            const percentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            progressBar.style.width = `${percentage}%`;
+
+            // Update the progress text
+            progressText.innerText = `${currentQuestionIndex + 1} of ${totalQuestions} questions answered`;
+        }
+
+        document.getElementById('surveyForm').addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(event.target);
+            const responses = {};
+
+            for (const [key, value] of formData.entries()) {
+                responses[key] = value; // Collect the responses
+            }
+
+            console.log('Survey Responses:', responses); // Log responses for demonstration
+            alert("Survey submitted! Thank you for your responses."); // Feedback to user
+            // Optionally, here you can send the responses to a server
+        });
+
+        // Show the next question with a slide effect
+        document.addEventListener('click', (event) => {
+            if (event.target.matches('.next-btn')) {
+                currentQuestionIndex++;
+                showCurrentQuestion();
+            }
+        });
+
+        // Initial display
+        displayQuestions();
+    </script>
+
 </body>
 </html>

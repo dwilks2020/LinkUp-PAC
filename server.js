@@ -1,8 +1,7 @@
-// Load environment variables
+// server.js
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Import dependencies
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -17,23 +16,28 @@ const authController = require('./controllers/auth'); // Authentication controll
 const blogsController = require('./controllers/blogs'); // Blogs controller
 const usersController = require('./controllers/users'); // Users controller
 
-
 // Initialize the app and set the port
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Set view engine
 app.set('view engine', 'ejs');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => {
+    console.log('MongoDB connected...');
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+  });
 
 // Middleware setup
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method')); // Enable PUT and DELETE methods via forms
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
+// Session middleware
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
