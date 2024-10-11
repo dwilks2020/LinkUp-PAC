@@ -3,24 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Survey</title>
+    <title>Create New Survey</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Create a New Survey</h1>
+    <h1>Create New Survey</h1>
     <form action="/surveys" method="POST">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
-        <br>
         
         <label for="description">Description:</label>
         <textarea id="description" name="description" required></textarea>
-        <br>
-        
-        <label for="userId">User ID:</label>
-        <input type="text" id="userId" name="userId" required> <!-- This should be the ID of the user creating the survey -->
-        <br>
-        
+
+        <h3>Questions:</h3>
+        <div id="questions">
+            <div class="question">
+                <input type="text" name="questions[0][questionText]" placeholder="Question Text" required>
+                <select name="questions[0][questionType]" required>
+                    <option value="text">Text</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                </select>
+                <input type="text" name="questions[0][options]" placeholder="Option 1 (comma-separated)">
+            </div>
+        </div>
+        <button type="button" onclick="addQuestion()">Add Question</button>
         <button type="submit">Create Survey</button>
     </form>
+
+    <script>
+        let questionCount = 1;
+        function addQuestion() {
+            const questionsDiv = document.getElementById('questions');
+            const newQuestionDiv = document.createElement('div');
+            newQuestionDiv.classList.add('question');
+            newQuestionDiv.innerHTML = `
+                <input type="text" name="questions[${questionCount}][questionText]" placeholder="Question Text" required>
+                <select name="questions[${questionCount}][questionType]" required>
+                    <option value="text">Text</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                </select>
+                <input type="text" name="questions[${questionCount}][options]" placeholder="Option 1 (comma-separated)">
+            `;
+            questionsDiv.appendChild(newQuestionDiv);
+            questionCount++;
+        }
+    </script>
+    <a href="/surveys">Back to Surveys</a>
 </body>
 </html>

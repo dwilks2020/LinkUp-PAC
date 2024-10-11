@@ -23,7 +23,6 @@ router.post('/users', async (req, res) => {
   try {
       const newUser = new User({
           name: req.body.name,
-          email: req.body.email,
       });
       
       await newUser.save();

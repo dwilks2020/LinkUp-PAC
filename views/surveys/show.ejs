@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= survey.title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= survey.title %></title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <%- include('../partials/_navbar.ejs') %>
-  <h1><%= survey.title %> Survey</h1>
-  
-  <% if (survey.description) { %>
-    <p>Description: <%= survey.description %></p>
-  <% } %>
-  
-  <% if (survey.link) { %>
-    <a href="<%= survey.link %>">Participate in this survey</a>
-  <% } %>
-  
-  <p>Status: <%= survey.status %></p>
+    <h1><%= survey.title %></h1>
+    <p><%= survey.description %></p>
 
-  <a href="/surveys/<%= survey._id %>/edit">
-    Edit this survey
-  </a>
+    <h2>Questions:</h2>
+    <ul>
+        <% survey.questions.forEach(question => { %>
+            <li>
+                <strong><%= question.questionText %></strong>
+                <% if (question.questionType === 'multiple-choice') { %>
+                    <ul>
+                        <% question.options.forEach(option => { %>
+                            <li><%= option %></li>
+                        <% }); %>
+                    </ul>
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
 
-  <form
-    action="/surveys/<%= survey._id %>?_method=DELETE"
-    method="POST"
-  >
-    <button type="submit">Delete this survey</button>
-  </form>
+    <a href="/surveys">Back to Surveys</a>
 </body>
 </html>

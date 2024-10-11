@@ -1,45 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editing <%= survey.title %></title> <!-- Update title for surveys -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Survey: <%= survey.title %></title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <%- include('../partials/_navbar.ejs') %>
-  <h1>Edit Survey: <%= survey.title %></h1> <!-- Update heading for surveys -->
-  <form 
-    action="/surveys/<%= survey._id %>?_method=PUT" <!-- Change action to reflect surveys -->
-    method="POST"
-  >
-    <label for="title">Survey Title:</label>
-    <input 
-      type="text" 
-      name="title" 
-      id="title" 
-      value="<%= survey.title %>" <!-- Update to reflect survey title -->
-    >
-    
-    <label for="description">Description:</label>
-    <textarea name="description" id="description"><%= survey.description %></textarea> <!-- Add description field -->
+    <h1>Edit Survey: <%= survey.title %></h1>
+    <form action="/surveys/<%= survey._id %>?_method=PUT" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="<%= survey.title %>" required>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required><%= survey.description %></textarea>
 
-    <label for="status">Status:</label>
-    <select id="status" name="status">
-      <option 
-        value="draft" 
-        <%= survey.status === "draft" ? "selected" : "" %>
-      >
-        Draft
-      </option>
-      <option 
-        value="published" 
-        <%= survey.status === "published" ? "selected" : "" %>
-      >
-        Published
-      </option>
-    </select>
-    
-    <button type="submit">Update Survey</button> <!-- Update button text -->
-  </form>
-</body>
-</html>
+        <h3>Questions:</h3>
+        <div id="questions">
+            <% survey.questions.forEach((question, index) => { %>
+                <div class="question">
+                    <input type="text" name="questions[<%= index %>][questionText]" value="<%= question.questionText %>" placeholder="Question Text" required>
+                    <select name="questions[<%= index %>][questionType]" required>
+                        <option value="text" <%= question.questionType === 'text' ? 'selected' : '' %>>Text</option>
+                        <option value="multiple-choice" <%= question.questionType === 'multiple-choice' ? 'selected' : '' %

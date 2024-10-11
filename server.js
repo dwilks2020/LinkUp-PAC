@@ -17,9 +17,12 @@ const authController = require('./controllers/auth'); // Authentication controll
 const blogsController = require('./controllers/blogs'); // Blogs controller
 const usersController = require('./controllers/users'); // Users controller
 
+
 // Initialize the app and set the port
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.set('view engine', 'ejs');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)

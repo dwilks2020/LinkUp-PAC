@@ -9,9 +9,6 @@
 <body>
 
     <h1>User Profile: <%= user.username %></h1>
-    <p>Name: <%= user.name %></p>
-    <p>Email: <%= user.email %></p>
-    <p>Joined on: <%= user.createdAt.toDateString() %></p>
 
     <a href="/users/<%= user._id %>/edit">Edit User</a>
     <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;">

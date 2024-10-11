@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surveys Management</title>
+    <title>Your Surveys</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <h1>Your Surveys jjj</h1>
 
-  <h2>Create New Survey</h2>
-  <form action="/surveys" method="POST">
-      <input type="text" name="title" placeholder="Survey Title" required>
-      <textarea name="description" placeholder="Survey Description" required></textarea>
-      <input type="hidden" name="userId" value="<%= user._id %>"> <!-- Ensure user ID is passed -->
-      <button type="submit">Create Survey</button>
-  </form>
-  
-    <h1>All Surveys</h1>
+
+    <a href="/surveys/new">Create a New Survey</a>
     <ul>
-        <% surveys.forEach(function(survey) { %>
+
+
+
+        <% surveys.forEach(survey => { %>
             <li>
-                <strong><%= survey.title %></strong> 
-                (<%= survey.description %>) 
-                <a href="/surveys/<%= survey._id %>">View</a> 
+                <a href="/surveys/<%= survey._id %>"><%= survey.title %></a>
+                <form action="/surveys/<%= survey._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+                <a href="/surveys/<%= survey._id %>/edit">Edit</a>
             </li>
         <% }); %>
     </ul>
-
 </body>
 </html>

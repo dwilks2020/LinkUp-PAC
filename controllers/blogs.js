@@ -7,14 +7,22 @@ const passUserToView = require('../middleware/pass-user-to-view');
 // Use middleware to pass the user to views
 router.use(passUserToView);
 
+// Routes requiring authentication
+router.use(isSignedIn);
+
+// Protected route: Show form to create a new blog (place this before the dynamic route)
+router.get('/new', (req, res) => {
+  res.render('blogs/create-blog.ejs');
+});
+
 // Public route: View all blogs
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate('author');
     res.render('blogs/index.ejs', { blogs });
   } catch (error) {
     console.error('Error fetching blogs:', error);
-    res.redirect('/');
+    res.status(500).send('Error fetching blogs');
   }
 });
 
@@ -28,30 +36,24 @@ router.get('/:blogId', async (req, res) => {
     res.render('blogs/read-blog.ejs', { blog });
   } catch (error) {
     console.error('Error fetching blog:', error);
-    res.redirect('/blogs');
+    res.status(500).redirect('/blogs');
   }
 });
 
-// Routes requiring authentication
-router.use(isSignedIn);
-
-// Protected route: Show form to create a new blog
-router.get('/new', (req, res) => {
-  console.log("BLOG_WORKING")
-  res.render('blogs/create-blog.ejs');
-});
-
 // Protected route: Create a new blog
-router.post('/', async (req, res) => {
+router.post('/create-blog', async (req, res) => {
   try {
     const { title, content, date } = req.body;
-    const authorId = req.session.user._id; // Get the author ID from the session
+    const authorId = req.session.user?._id; // Ensure session has user
+    if (!authorId) {
+      return res.status(403).send('You must be signed in to create a blog');
+    }
 
     const newBlog = new Blog({
       title,
       content,
       date: date || Date.now(),
-      author: authorId // Assign the correct author ID
+      author: authorId, // Assign the author ID from the session
     });
 
     await newBlog.save();
@@ -61,7 +63,6 @@ router.post('/', async (req, res) => {
     res.status(400).send('Error creating blog');
   }
 });
-
 
 // Protected route: Show form to edit a blog
 router.get('/:blogId/edit', async (req, res) => {

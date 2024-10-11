@@ -9,17 +9,37 @@
 <body>
     <h1>Create Survey</h1>
     <form action="/surveys" method="POST">
-        <label for="question">Survey Question</label>
-        <input type="text" id="question" name="question" required>
-
-        <label for="option1">Answer Option 1 (True/False)</label>
-        <input type="checkbox" id="option1" name="answers.option1" value="true">
-
-        <label for="option2">Answer Option 2 (True/False)</label>
-        <input type="checkbox" id="option2" name="answers.option2" value="true">
-
+        <div>
+            <label for="title">Survey Title:</label>
+            <input type="text" name="title" required />
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea name="description" required></textarea>
+        </div>
+        <div id="questions-container">
+            <h3>Questions:</h3>
+            <div class="question">
+                <label for="questionText">Question Text:</label>
+                <input type="text" name="questions[0][questionText]" required />
+                
+                <label for="questionType">Question Type:</label>
+                <select name="questions[0][questionType]" required>
+                    <option value="text">Text</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                </select>
+    
+                <label for="options">Options (for multiple-choice):</label>
+                <input type="text" name="questions[0][options]" placeholder="Option 1" />
+                <input type="text" name="questions[0][options]" placeholder="Option 2" />
+                <input type="text" name="questions[0][options]" placeholder="Option 3" />
+                <input type="text" name="questions[0][options]" placeholder="Option 4" />
+            </div>
+            <!-- You can add more questions dynamically using JavaScript -->
+        </div>
         <button type="submit">Create Survey</button>
     </form>
+    
     <a href="/surveys">Back to All Surveys</a>
 </body>
 </html>
