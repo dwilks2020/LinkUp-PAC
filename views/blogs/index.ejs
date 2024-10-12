@@ -7,22 +7,23 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-
-    <h1>hello moto</h1>
-
-    <h1>Blog Posts</h1>
-    <a href="/blogs/new">Create New Blog Post</a>
-
-    <h2>All Posts</h2>
-    <ul>
-        <% blogs.forEach(blog => { %>
-            <li>
-                <a href="/blogs/<%= blog._id %>"><%= blog.title %></a> <!-- Display blog title -->
-                <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit">Delete</button> <!-- Delete blog post -->
-                </form>
-            </li>
-        <% }) %>
-    </ul>
+    <div class="container">
+        <h1>Blog Posts</h1>
+        <a href="/blogs/new" class="create-btn">Create New Blog Post</a>
+        
+        <h2>All Posts</h2>
+        <div class="blog-list">
+            <% blogs.forEach(blog => { %>
+                <div class="blog-card">
+                    <h3><a href="/blogs/<%= blog._id %>"><%= blog.title %></a></h3>
+                    <p><strong>Author:</strong> <%= blog.author.username %></p>
+                    <p><strong>Date:</strong> <%= blog.date ? blog.date.toLocaleDateString() : 'Not specified' %></p>
+                    <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            <% }) %>
+        </div>
+    </div>
 </body>
 </html>

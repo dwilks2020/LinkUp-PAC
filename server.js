@@ -1,7 +1,8 @@
-// server.js
+// Load environment variables
 const dotenv = require('dotenv');
 dotenv.config();
 
+// Import dependencies
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -31,6 +32,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => {
     console.error('MongoDB connection error:', err);
   });
+
 
 // Middleware setup
 app.use(express.urlencoded({ extended: false }));
